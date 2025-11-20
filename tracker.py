@@ -4,8 +4,15 @@ class MoodTracker:
     def __init__(self, storage):
         self.storage = storage
         self.entries = self.storage.load_entries()
+        self.current_user = None  # Aktualny użytkownik
     
+    def set_user(self, username):
+        self.current_user = username
+
     def add_entry(self, entry):
+        # Dodaj nazwę użytkownika do zapisu (jeśli ustawiona)
+        if self.current_user:
+            entry["user"] = self.current_user
         self.entries.append(entry)
         self.storage.save_entries(self.entries)
     
