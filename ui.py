@@ -21,13 +21,13 @@ class MoodTrackerApp:
     
     def setup_ui(self):
         
-        # Eksport CSV - przeniesiony do lewego górnego rogu
+        # Eksport CSV
         self.export_btn = ctk.CTkButton(self.root, text="Eksportuj CSV", command=self.export_csv)
         self.export_btn.place(x=10, y=10)
         
-        # Pole logowania (tylko nazwa użytkownika)
+        # Pole logowania
         self.username_label = ctk.CTkLabel(self.root, text="Nazwa użytkownika")
-        self.username_label.pack(pady=(40,0))  # Przesuń w dół, by nie nakładało się na przycisk eksportu
+        self.username_label.pack(pady=(40,0))
         self.username_entry = ctk.CTkEntry(self.root, placeholder_text="Wpisz nazwę użytkownika")
         self.username_entry.pack(pady=5, fill="x", padx=20)
         self.set_user_btn = ctk.CTkButton(self.root, text="Ustaw użytkownika", command=self.set_username)

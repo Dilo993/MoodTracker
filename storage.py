@@ -25,7 +25,7 @@ class JSONStorage:
         dirname = os.path.dirname(csv_path)
         if dirname and not os.path.exists(dirname):
             os.makedirs(dirname, exist_ok=True)
-        # pola w ustalonej kolejności, dodano 'user'
+        # pola w ustalonej kolejności
         fieldnames = ["date", "mood", "energy", "note", "user"]
         with open(csv_path, "w", newline='', encoding="utf-8") as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
