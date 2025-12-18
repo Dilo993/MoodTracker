@@ -74,6 +74,32 @@ Kilka istotnych testów pokrywających:
 - funkcje `MoodTracker` (set_user, add/edit/delete entry, średnia nastroju),
 - obsługa znaków unicode oraz brakujących pól przy eksporcie.
 
+Dodatek — szczegółowe opisy testów
+- `test/test_unit.py` — testy jednostkowe skupione na pojedynczych klasach i metodach:
+	- sprawdza, że `JSONStorage` tworzy plik przy inicjalizacji i potrafi zapisać/wczytać listę wpisów,
+	- weryfikuje, że `JSONStorage.export_csv()` tworzy plik CSV oraz katalogi jeśli ich brak,
+	- testuje `MoodTracker` z `FakeStorage`: `set_user()`, `add_entry()` (przypisanie `user` i zapis),
+		`delete_entry()`, `edit_entry()` oraz obliczanie średniej nastroju (pusty zbiór → 0, obliczenie średniej).
+
+- `test/test_integration.py` — testy integracyjne weryfikujące współpracę `MoodTracker` i `JSONStorage` oraz eksport CSV:
+	- czy wpisy są poprawnie zapisywane do pliku i wczytywane (persistencja),
+	- obsługa wielu użytkowników i rozróżnianie wpisów po polu `user`,
+	- eksport CSV zawiera wszystkie kolumny (`date`, `mood`, `energy`, `note`, `user`) i poprawną liczbę wierszy,
+	- operacje `delete_entry()` i `edit_entry()` są trwałe (zmiany zapisane w pliku),
+	- ponowne uruchomienie/tracker z istniejącym storage ładuje uprzednio zapisane wpisy,
+	- obsługa znaków Unicode w notatkach oraz poprawny export,
+	- eksport do zagnieżdżonej ścieżki tworzy brakujące katalogi,
+	- eksport radzi sobie z brakującymi kluczami (np. brak `energy`) i zapisuje puste pola w CSV,
+	- test z wieloma wpisami sprawdza kompletność i zgodność pól `user` w wyeksportowanym CSV.
+
+Jak uruchomić testy:
+
+```bash
+python -m pytest -q
+```
+
+Uwaga: testy używają tymczasowych plików/katalogów (pytest `tmp_path`) i nie powinny modyfikować repozytorium ani danych w `data/`.
+
 ## Scenariusze manualne
 Plik ze szczegółowymi przypadkami testowymi manualnymi znajduje się w `manual_tests.txt`.
 
