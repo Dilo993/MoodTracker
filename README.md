@@ -85,6 +85,21 @@ pytest -q
 	- eksport radzi sobie z brakującymi kluczami (np. brak `energy`) i zapisuje puste pola w CSV,
 	- test z wieloma wpisami sprawdza kompletność i zgodność pól `user` w wyeksportowanym CSV.
 
+-Poniżej znajduje się tabela z przypadkami testowymi manualnymi.
+
+| TestCase | Title | Preconditions | Steps | Expected Result |
+|---|---|---|---|---|
+| TC01 | Uruchomienie aplikacji | Python 3 zainstalowany, zależności dostępne | 1. Uruchom `python main.py`.<br>2. Obserwuj, czy okno aplikacji się otwiera. | Aplikacja uruchamia się bez błędów, główne okno widoczne. |
+| TC02 | Ustawienie użytkownika | Aplikacja uruchomiona | 1. W polu "Nazwa użytkownika" wpisz nazwę.<br>2. Kliknij "Ustaw użytkownika". | Nazwa użytkownika zapisana, przycisk "Zapisz wpis" odblokowany. |
+| TC03 | Dodawanie wpisu (poprawne dane) | Ustawiony użytkownik | 1. Ustaw wartości suwaków Mood i Energy.<br>2. Wpisz notatkę.<br>3. Kliknij "Zapisz wpis". | Wpis pojawia się w historii z datą, mood, energy, note i polem `user`. |
+| TC04 | Historia pokazuje tylko wpisy bieżącego użytkownika | Są wpisy różnych użytkowników zapisane | 1. Ustaw użytkownika A i dodaj wpis.<br>2. Ustaw użytkownika B i dodaj wpis.<br>3. Ustaw ponownie użytkownika A. | W historii widoczne są tylko wpisy użytkownika A. |
+| TC05 | Eksport CSV (poprawny przebieg) | Co najmniej jeden wpis dla bieżącego użytkownika | 1. Kliknij "Eksportuj CSV".<br>2. Wybierz lokalizację i zapisz plik.<br>3. Otwórz plik CSV w edytorze tekstu. | Plik zawiera nagłówki `date,mood,energy,note,user` i wiersze odpowiadające wpisom. |
+| TC06 | Eksport CSV bez wybrania pliku (anulowanie) | Aplikacja uruchomiona | 1. Kliknij "Eksportuj CSV".<br>2. W oknie zapisu kliknij Anuluj. | Brak błędu; aplikacja pozostaje w stanie poprzednim. |
+| TC07 | Eksport CSV gdy wpisy mają brakujące pola | W pliku JSON znajdują się wpisy bez niektórych kluczy (np. brak "note") | 1. Uruchom eksport CSV.<br>2. Otwórz wygenerowany plik. | Brakujące pola będą puste w CSV (puste komórki), eksport nie powoduje wyjątku. |
+| TC08 | Walidacja zapisu do `data/moods.json` | Dodany nowy wpis przez UI | 1. Dodaj wpis przez GUI.<br>2. Otwórz `data/moods.json`. | Nowy wpis znajduje się w JSON z polem `user` równym ustawionemu użytkownikowi. |
+| TC09 | Obsługa znaków unicode w notatce i eksporcie | Ustawiony użytkownik | 1. Wprowadź notatkę zawierającą polskie znaki i emoji.<br>2. Zapisz wpis i wyeksportuj CSV. | Znaki unicode poprawnie zapisane w JSON i CSV bez utraty danych. |
+| TC10 | Obsługa błędów podczas eksportu (np. brak uprawnień) | Wybierz katalog docelowy bez praw zapisu (lub symuluj błąd) | 1. Kliknij "Eksportuj CSV" i wybierz lokalizację bez praw zapisu. | Wyświetlenie komunikatu o błędzie, aplikacja nie ulega awarii. |
+
 ## Uwagi deweloperskie
 - `JSONStorage` przy inicjalizacji tworzy pustą listę w pliku, jeśli plik nie istnieje.
 - Eksport CSV używa kolejności pól `date,mood,energy,note,user` i wstawia puste wartości gdy brakuje kluczy.
