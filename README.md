@@ -85,9 +85,6 @@ pytest -q
 	- eksport radzi sobie z brakującymi kluczami (np. brak `energy`) i zapisuje puste pola w CSV,
 	- test z wieloma wpisami sprawdza kompletność i zgodność pól `user` w wyeksportowanym CSV.
 
-## Scenariusze manualne
-Plik ze szczegółowymi przypadkami testowymi manualnymi znajduje się w `manual_tests.txt`.
-
 ## Uwagi deweloperskie
 - `JSONStorage` przy inicjalizacji tworzy pustą listę w pliku, jeśli plik nie istnieje.
 - Eksport CSV używa kolejności pól `date,mood,energy,note,user` i wstawia puste wartości gdy brakuje kluczy.
